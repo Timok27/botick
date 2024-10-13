@@ -7,7 +7,7 @@ import (
 
 func main() {
 
-	bot, err := tgbotapi.NewBotAPI("...")
+	bot, err := tgbotapi.NewBotAPI("api")
 	if err != nil {
 		log.Panic(err)
 	}
@@ -16,25 +16,24 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-
-	// Канал, через который будут приходить обновления от пользователя
+	
 	updates := bot.ListenForWebhook("/telegram_bot_endpoint")
 
-	// Получение обновлений из канала и их обработка
+
 	for update := range updates {
-		if update.Message == nil { // игнорируем обновления, которые не являются сообщениями
+		if update.Message == nil {
 			continue
 		}
 
-		// Если сообщение не содержит текста, пропускаем его
+		
 		if update.Message.Text == "" {
 			continue
 		}
 
-		// Пересылаем текст сообщения вам
-		msg := tgbotapi.NewMessage(482924915, update.Message.Text)
+	
+		msg := tgbotapi.NewMessage("api", update.Message.Text)
 
-		// Отправка сообщения вам
+		
 		_, err := bot.Send(msg)
 		if err != nil {
 			log.Println(err)
